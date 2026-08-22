@@ -1,6 +1,6 @@
 /* Minha Produção — service worker
    IMPORTANTE: aumente CACHE a cada publicação, senão o Chrome serve a versão antiga. */
-const CACHE = 'atelie-v10';
+const CACHE = 'atelie-v11';
 const ESSENCIAIS = [
   './',
   './index.html',
