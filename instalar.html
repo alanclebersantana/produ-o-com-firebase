@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Instalar o Minha Produção</title>
+<meta name="description" content="Como colocar o Minha Produção no seu celular, em dois toques.">
+<meta name="theme-color" content="#FBF8F1">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  /* Areia Dourada, em tom suave */
+  --accent:#B08C4A; --soft:#F1E7C9; --soft2:#EAE0C1; --bg:#FBF8F1; --card:#fff;
+  --text:#5F4C22; --dim:rgba(95,76,34,.6); --line:rgba(95,76,34,.12);
+  --sh:0 2px 10px rgba(160,130,60,.10); --sh2:0 10px 30px rgba(160,130,60,.18); --r:18px;
+}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',-apple-system,'Segoe UI',sans-serif;
+  line-height:1.5;min-height:100dvh}
+.wrap{max-width:480px;margin:0 auto;padding:28px 20px 60px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+.brand .mark{width:44px;height:44px;border-radius:13px;flex-shrink:0;box-shadow:var(--sh);overflow:hidden}
+.brand .mark img{width:100%;height:100%;display:block;object-fit:cover}
+.brand span{font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+h1{font-size:27px;font-weight:800;letter-spacing:-.01em;margin-bottom:8px}
+.lede{font-size:14.5px;color:var(--dim);margin-bottom:22px}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:15px;
+  border-radius:16px;font-weight:800;font-size:15.5px;border:0;cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--accent);color:#fff;box-shadow:var(--sh2)}
+.btn.primary:active{filter:brightness(.96)}
+.linkopen{display:block;text-align:center;font-size:13px;color:var(--dim);margin-top:12px;text-decoration:underline;
+  text-decoration-color:var(--line);text-underline-offset:3px}
+.note{font-size:12px;color:var(--dim);text-align:center;margin-top:14px;line-height:1.5}
+.qr{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:16px;margin-top:26px;
+  display:flex;align-items:center;gap:14px}
+.qr img{width:74px;height:74px;border-radius:10px;flex-shrink:0;background:#fff}
+.qr p{font-size:12.5px;color:var(--dim)}
+.qr b{display:block;font-size:13px;color:var(--text);margin-bottom:2px}
+.steps{margin-top:34px}
+.steps h2{font-size:15px;font-weight:800;margin-bottom:3px}
+.steps .sub{font-size:12.5px;color:var(--dim);margin-bottom:14px}
+.tabs{display:flex;gap:6px;margin-bottom:16px}
+.tabs button{flex:1;padding:10px;border-radius:12px;border:0;background:var(--card);color:var(--dim);
+  font-weight:800;font-size:13px;box-shadow:var(--sh);cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--accent);color:#fff;box-shadow:none}
+.panel{display:none}
+.panel.on{display:block}
+.step{display:flex;gap:13px;background:var(--card);border-radius:var(--r);box-shadow:var(--sh);
+  padding:14px;margin-bottom:10px}
+.step i{width:26px;height:26px;border-radius:50%;background:var(--soft2);color:var(--accent);
+  display:grid;place-items:center;font-weight:800;font-size:12.5px;flex-shrink:0;font-style:normal}
+.step b{display:block;font-size:13.5px;margin-bottom:2px}
+.step span{font-size:12.5px;color:var(--dim);line-height:1.45}
+.feats{margin-top:30px;display:flex;flex-direction:column;gap:10px}
+.feat{background:var(--soft);border-radius:14px;padding:13px 14px}
+.feat b{display:block;font-size:13px;margin-bottom:2px}
+.feat span{font-size:12px;color:var(--dim);line-height:1.45}
+footer{text-align:center;font-size:11.5px;color:var(--dim);margin-top:36px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">
+    <div class="mark"><img src="icon-192.png" alt="Ícone do Minha Produção"></div>
+    <span>Instalar app</span>
+  </div>
+
+  <h1>Minha Produção</h1>
+  <p class="lede">Pedidos, estoque, clientes, entregas e preços do seu ateliê — tudo num app só, direto no seu celular.</p>
+
+  <button class="btn primary" id="btnInstalar">Instalar no meu celular</button>
+  <a class="linkopen" href="./index.html">Só abrir, sem instalar</a>
+  <p class="note">A instalação é feita pelo próprio navegador. Não baixa arquivo, não pede senha e não ocupa quase nada de espaço.</p>
+
+  <div class="qr">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&color=B08C4A&data=https%3A%2F%2Falanclebersantana.github.io%2FMinha-Produ-o-%2Findex.html" alt="QR code para instalar o Minha Produção" loading="lazy">
+    <p><b>Aponte a câmera</b>Para instalar no celular de outra pessoa da equipe, peça para ela apontar a câmera para este código.</p>
+  </div>
+
+  <div class="steps">
+    <h2>Como instalar</h2>
+    <p class="sub">São dois toques. Escolha o seu aparelho.</p>
+
+    <div class="tabs">
+      <button data-tab="android" aria-pressed="true">Android</button>
+      <button data-tab="iphone" aria-pressed="false">iPhone</button>
+    </div>
+
+    <div class="panel on" id="p-android">
+      <div class="step"><i>1</i><div><b>Abra esta página no Chrome</b><span>Se você chegou pelo WhatsApp ou pelo Instagram, toque nos três pontinhos do canto e escolha <em>Abrir no navegador</em>.</span></div></div>
+      <div class="step"><i>2</i><div><b>Toque no botão dourado aqui em cima</b><span>Se ele não aparecer, use o menu ⋮ do Chrome e escolha <em>Instalar app</em> ou <em>Adicionar à tela inicial</em>.</span></div></div>
+      <div class="step"><i>3</i><div><b>Confirme em Instalar</b><span>O ícone do Minha Produção aparece na tela inicial, junto dos outros aplicativos.</span></div></div>
+    </div>
+
+    <div class="panel" id="p-iphone">
+      <div class="step"><i>1</i><div><b>Abra esta página no Safari</b><span>No iPhone, só o Safari consegue instalar. Se abriu no Chrome, copie o endereço e cole no Safari.</span></div></div>
+      <div class="step"><i>2</i><div><b>Toque no botão de compartilhar</b><span>É o quadradinho com a seta para cima, na barra de baixo.</span></div></div>
+      <div class="step"><i>3</i><div><b>Escolha Adicionar à Tela de Início</b><span>Role a lista até achar. Depois toque em <em>Adicionar</em>, no canto de cima.</span></div></div>
+    </div>
+  </div>
+
+  <div class="feats">
+    <div class="feat"><b>Funciona sem internet</b><span>Depois de instalado, o app abre e registra pedidos, estoque e clientes normalmente no modo avião.</span></div>
+    <div class="feat"><b>O que você lança fica no seu aparelho</b><span>Os dados ficam salvos no próprio celular, do jeito que você configurou o app.</span></div>
+    <div class="feat"><b>Atualiza sozinho</b><span>Quando sai uma versão nova, ela chega na próxima vez que você abrir com internet. Não precisa reinstalar.</span></div>
+    <div class="feat"><b>Usando em equipe</b><span>Cada pessoa que lança dados pode instalar o mesmo app no próprio celular, apontando para este mesmo endereço.</span></div>
+  </div>
+
+  <footer>Minha Produção — gestão de produção artesanal ©</footer>
+</div>
+
+<script>
+document.querySelectorAll('.tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-pressed', b===btn));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+    document.getElementById('p-'+btn.dataset.tab).classList.add('on');
+  });
+});
+let deferred=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;});
+document.getElementById('btnInstalar').addEventListener('click',async()=>{
+  if(deferred){deferred.prompt();await deferred.userChoice;deferred=null;}
+  else{window.location.href='./index.html';}
+});
+</script>
+</body>
+</html>
