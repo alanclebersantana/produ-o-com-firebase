@@ -16,22 +16,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" id="fonteBase">
 <link rel="stylesheet" id="fonteSel">
 
-<!-- ============ FIREBASE (login com e-mail) ============
+<!-- ============ FIREBASE (login com e-mail + dados na nuvem) ============
      1. Troque os valores de firebaseConfig abaixo pelos do SEU projeto
         (Firebase Console > Configurações do projeto > Seus apps > SDK setup and configuration).
-     2. Se um dia trocar de versão do SDK, troque nas duas linhas dos scripts abaixo. -->
+     2. Se um dia trocar de versão do SDK, troque nas três linhas dos scripts abaixo.
+     3. No Firestore, use a regra que restringe cada usuário a /usuarios/{uid} (ver conversa/README). -->
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore-compat.js"></script>
 <script>
 const firebaseConfig = {
-  apiKey: "AIzaSyC0a9K6op7IrtQ1sDMHHfK8EEE_Glq21qY",
-  authDomain: "minha-producao-6caa0.firebaseapp.com",
-  projectId: "minha-producao-6caa0",
-  storageBucket: "minha-producao-6caa0.firebasestorage.app",
-  messagingSenderId: "1015164671367",
-  appId: "1:1015164671367:web:f6402cf19ec5ee9b7f2f22"
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJETO",
+  storageBucket: "SEU_PROJETO.appspot.com",
+  messagingSenderId: "SEU_SENDER_ID",
+  appId: "SEU_APP_ID"
 };
 firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 </script>
 
 <style>
@@ -457,6 +460,7 @@ const FORMAS=['Pix','Dinheiro','Cartão','Transferência','Outro'];
 /* ============ estado ============ */
 const CHAVE_LEGADO='atelie.v1';
 let CHAVE=CHAVE_LEGADO;
+let UID_ATUAL=null; /* uid do usuário logado, usado para sincronizar com a nuvem */
 const seed=()=>{
  return{versao:1,tema:'lavanda',modo:'auto',custom:JSON.parse(JSON.stringify(CUSTOM_PADRAO)),
   cfg:{...CFG_PADRAO},
@@ -470,7 +474,8 @@ function carregar(){
  try{const r=localStorage.getItem(CHAVE);if(r){const d=JSON.parse(r);return migrar(d)}}catch(e){console.warn(e)}
  return seed();
 }
-function carregarParaUsuario(uid){
+async function carregarParaUsuario(uid){
+ UID_ATUAL=uid;
  const chaveUid='atelie.v1.uid.'+uid;
  try{
   if(!localStorage.getItem(chaveUid)){
@@ -480,7 +485,18 @@ function carregarParaUsuario(uid){
   }
  }catch(e){console.warn(e)}
  CHAVE=chaveUid;
- return carregar();
+ const local=carregar();
+ let dados=local;
+ try{
+  const doc=await db.collection('usuarios').doc(uid).get();
+  if(doc.exists){
+   const nuvem=migrar(doc.data());
+   /* usa o que foi salvo mais recentemente (celular x nuvem) — evita apagar dados de outro aparelho */
+   if((nuvem._sync||0)>(local._sync||0))dados=nuvem;
+  }
+ }catch(e){console.warn('sem conexão com a nuvem agora — usando os dados salvos neste aparelho',e)}
+ try{localStorage.setItem(CHAVE,JSON.stringify(dados))}catch(e){}
+ return dados;
 }
 function migrar(d){
  d.custom=Object.assign(JSON.parse(JSON.stringify(CUSTOM_PADRAO)),d.custom||{});
@@ -501,7 +517,19 @@ function migrar(d){
 }
 let salvarT;
 function salvar(){clearTimeout(salvarT);salvarT=setTimeout(()=>{
- try{localStorage.setItem(CHAVE,JSON.stringify(S))}catch(e){toast('Não foi possível salvar (armazenamento cheio)')}},120)}
+ S._sync=Date.now();
+ try{localStorage.setItem(CHAVE,JSON.stringify(S))}catch(e){toast('Não foi possível salvar (armazenamento cheio)')}
+ salvarNuvem();
+},120)}
+let nuvemT;
+function salvarNuvem(){
+ if(!UID_ATUAL)return;
+ clearTimeout(nuvemT);
+ nuvemT=setTimeout(()=>{
+  db.collection('usuarios').doc(UID_ATUAL).set(S)
+   .catch(e=>console.warn('sem conexão com a nuvem agora — os dados continuam salvos neste aparelho',e));
+ },1000);
+}
 
 /* ============ derivados ============ */
 const cli=id=>S.clientes.find(c=>c.id===id);
@@ -2291,10 +2319,10 @@ function iniciarApp(){
  setInterval(checarLembretes,60000);
  addEventListener('visibilitychange',()=>{if(!document.hidden&&AUTH_USER)checarLembretes()});
 }
-firebase.auth().onAuthStateChanged(user=>{
+firebase.auth().onAuthStateChanged(async user=>{
  AUTH_USER=user;
- if(user){S=carregarParaUsuario(user.uid);ocultarAuth();iniciarApp()}
- else{authModo='login';mostrarAuth()}
+ if(user){S=await carregarParaUsuario(user.uid);ocultarAuth();iniciarApp()}
+ else{UID_ATUAL=null;authModo='login';mostrarAuth()}
 });
 
 /* ============ start ============ */
